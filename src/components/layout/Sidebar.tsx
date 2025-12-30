@@ -1,5 +1,11 @@
 import { NavLink } from 'react-router-dom';
-import { FaHome, FaUtensils, FaBoxOpen, FaShoppingCart, FaFileInvoiceDollar } from 'react-icons/fa';
+import { 
+  FaHome, 
+  FaUtensils, 
+  FaBoxOpen, 
+  FaShoppingCart, 
+  FaFileInvoiceDollar 
+} from 'react-icons/fa';
 
 const menu = [
   { to: '/dashboard', icon: FaHome, label: 'Dashboard' },
@@ -11,19 +17,21 @@ const menu = [
 
 const Sidebar = () => {
   return (
-    <aside className="w-64 bg-blue-100 min-h-screen p-6">
-      <nav className="space-y-4">
+    <aside className="fixed left-0 top-20 w-64 h-full bg-gradient-to-b from-amber-50 to-orange-50 shadow-xl border-r border-amber-100">
+      <nav className="mt-8 space-y-3 px-6">
         {menu.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             className={({ isActive }) =>
-              `flex items-center gap-4 px-6 py-4 rounded-lg text-lg font-medium transition ${
-                isActive ? 'bg-blue-600 text-white' : 'hover:bg-blue-200'
+              `flex items-center gap-5 px-6 py-4 rounded-2xl text-lg font-medium transition-all duration-300 ${
+                isActive
+                  ? 'bg-gradient-to-r from-amber-500 to-orange-600 text-white shadow-lg shadow-amber-300/50'
+                  : 'text-gray-700 hover:bg-amber-100/70 hover:text-gray-900 hover:shadow-md'
               }`
             }
           >
-            <item.icon size={24} />
+            <item.icon size={26} />
             <span>{item.label}</span>
           </NavLink>
         ))}

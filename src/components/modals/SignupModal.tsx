@@ -13,30 +13,41 @@ const SignupModal: React.FC<Props> = ({ show, onClose }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSignup = () => {
-        if (!name || !contact || !email || !password || password !== confirmPassword) {
-            alert('Please fill all fields correctly and ensure passwords match.');
+        if (!name || !contact || !email || !password) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+        if (password !== confirmPassword) {
+            alert('Passwords do not match!');
             return;
         }
 
-        alert('Signup successful! (Demo mode)');
-        onClose();
+        setIsLoading(true);
+        setTimeout(() => {
+            alert('🎉 Signup successful! You can now log in. (Demo mode)');
+            setIsLoading(false);
+            onClose();
+        }, 1000);
     };
 
     return (
         <Modal
-            title="Signup"
+            title="Join Cafe Bliss ✨"
+            subtitle="Create your account and start managing"
             show={show}
             onCancel={onClose}
             onSuccess={handleSignup}
-            successButtonTitle="Signup"
+            successButtonTitle={isLoading ? "Creating Account..." : "Sign Up"}
+            successButtonDisabled={isLoading}
             size="md"
         >
-            <div className="space-y-8">
-                <div className="grid grid-cols-2 gap-6">
+            <div className="space-y-7 py-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input
-                        label="Name"
+                        label="Full Name"
                         name="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -50,15 +61,17 @@ const SignupModal: React.FC<Props> = ({ show, onClose }) => {
                         isRequired
                     />
                 </div>
+
                 <Input
-                    label="Email"
+                    label="Email Address"
                     name="email"
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     isRequired
                 />
-                <div className="grid grid-cols-2 gap-6">
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Input
                         label="Password"
                         name="password"

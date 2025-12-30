@@ -9,35 +9,72 @@ interface Props {
 
 const ForgotPasswordModal: React.FC<Props> = ({ show, onClose }) => {
   const [email, setEmail] = useState('');
+  const [isSent, setIsSent] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSend = () => {
-    if (!email.trim()) {
-      alert('Please enter your email');
+    if (!email.trim() || !email.includes('@')) {
+      alert('Please enter a valid email address');
       return;
     }
 
-    alert(`Password reset link sent to ${email}! (Demo mode)`);
-    onClose();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsSent(true);
+      setIsLoading(false);
+    }, 1200);
+  };
+
+  const handleReset = () => {
+    setEmail('');
+    setIsSent(false);
   };
 
   return (
     <Modal
-      title="Forgot Password?"
+      title="Reset Password 🔑"
+      subtitle={isSent ? "Check your inbox!" : "We'll send you a recovery link"}
       show={show}
-      onCancel={onClose}
-      onSuccess={handleSend}
-      successButtonTitle="Send Password"
+      onCancel={isSent ? handleReset : onClose}
+      onSuccess={isSent ? handleReset : handleSend}
+      successButtonTitle={isSent ? "Done" : isLoading ? "Sending..." : "Send Reset Link"}
+      successButtonDisabled={isLoading}
+      cancelButtonTitle={isSent ? undefined : "Cancel"}
       size="sm"
     >
-      <div className="space-y-8">
-        <Input
-          label="Email"
-          name="email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          isRequired
-        />
+      <div className="space-y-8 py-6">
+        {isSent ? (
+          <div className="text-center space-y-6">
+            <div className="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center">
+              <span className="text-4xl">✔</span>
+            </div>
+            <div>
+              <p className="text-lg font-medium text-gray-800">
+                Password reset link sent!
+              </p>
+              <p className="text-gray-600 mt-2">
+                We've sent instructions to <strong>{email}</strong>
+              </p>
+              <p className="text-sm text-gray-500 mt-4">
+                (Demo mode — no email actually sent)
+              </p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <Input
+              label="Your Email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              isRequired
+            />
+            <p className="text-sm text-gray-600 text-center">
+              Enter your email and we'll send you a password reset link.
+            </p>
+          </>
+        )}
       </div>
     </Modal>
   );

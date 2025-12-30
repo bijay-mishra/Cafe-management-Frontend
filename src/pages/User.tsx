@@ -1,10 +1,10 @@
-import Bill from '../components/bill/Bill';
 import AdminLayout from '../components/layout/AdminLayout';
+import User from '../components/user/User';
 
-export default function BillPage() {
+export default function UserPage() {
   return (
     <AdminLayout>
-      <Bill />
+      <User />
     </AdminLayout>
   );
 }

@@ -1,62 +1,61 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { FaEdit, FaTrash, FaPlus, FaToggleOn, FaToggleOff } from 'react-icons/fa';
-import { Package } from 'lucide-react';
+import { Users, UserPlus, UserX } from 'lucide-react';
 import Modal from '../common/Modal';
-import ProductForm from './ProductForm';
-import {
-  getProducts,
-  addProduct,
-  updateProduct,
-  deleteProduct,
-  toggleProductActive
-} from './service/product.query';
-const Product = () => {
-  const [products, setProducts] = useState<any[]>([]);
+import UserForm from './UserForm';
+import { 
+  getUsers, 
+  addUser, 
+  updateUser, 
+  deleteUser 
+} from './service/user.query';
+const User = () => {
+  const [users, setUsers] = useState<any[]>([]);
   const [showAddEditModal, setShowAddEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any | null>(null);
-  const [deletingProduct, setDeletingProduct] = useState<any | null>(null);
+  const [editingUser, setEditingUser] = useState<any | null>(null);
+  const [deletingUser, setDeletingUser] = useState<any | null>(null);
   const refresh = () => {
-    setProducts(getProducts());
+    setUsers(getUsers());
   };
-
   useEffect(() => {
     refresh();
   }, []);
+
   const openAddModal = () => {
-    setEditingProduct(null);
+    setEditingUser(null);
     setShowAddEditModal(true);
   };
-  const openEditModal = (product: any) => {
-    setEditingProduct(product);
+
+  const openEditModal = (user: any) => {
+    setEditingUser(user);
     setShowAddEditModal(true);
   };
-  const handleSave = (data: any) => {
-    if (editingProduct) {
-      updateProduct(editingProduct.id, data);
+
+  const handleSave = (data: { name: string; email: string; role: string }) => {
+    if (editingUser) {
+      updateUser(editingUser.id, data);
     } else {
-      addProduct(data);
+      addUser(data);
     }
     setShowAddEditModal(false);
     refresh();
   };
-  const openDeleteModal = (product: any) => {
-    setDeletingProduct(product);
+
+  const openDeleteModal = (user: any) => {
+    setDeletingUser(user);
     setShowDeleteModal(true);
   };
+
   const handleDelete = () => {
-    if (deletingProduct) {
-      deleteProduct(deletingProduct.id);
+    if (deletingUser) {
+      deleteUser(deletingUser.id);
       refresh();
     }
     setShowDeleteModal(false);
-    setDeletingProduct(null);
+    setDeletingUser(null);
   };
-  const handleToggleActive = (id: string) => {
-    toggleProductActive(id);
-    refresh();
-  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 pt-24 px-6">
       <div className="max-w-7xl mx-auto">
@@ -66,10 +65,10 @@ const Product = () => {
           className="text-center mb-16"
         >
           <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-4">
-            Product Management ☕
+            User Management ☕
           </h1>
           <p className="text-xl text-gray-600">
-            Showcase your delicious menu items with pride
+            Manage your cafe staff and admin accounts
           </p>
         </motion.div>
         <motion.div
@@ -79,93 +78,77 @@ const Product = () => {
         >
           <div className="p-8 flex justify-between items-center border-b border-amber-100">
             <div className="flex items-center gap-4">
-              <div className="p-4 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-600 text-white shadow-lg">
-                <Package className="w-8 h-8" />
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-400 to-pink-500 text-white shadow-lg">
+                <Users className="w-8 h-8" />
               </div>
               <h2 className="text-3xl font-bold text-gray-800">
-                All Products ({products.length})
+                All Users ({users.length})
               </h2>
             </div>
+
             <button
               onClick={openAddModal}
-              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-emerald-500 to-teal-600 text-white text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white text-lg font-semibold rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
-              <FaPlus className="w-5 h-5" />
-              Add Product
+              <UserPlus className="w-5 h-5" />
+              Add User
             </button>
           </div>
+
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gradient-to-r from-emerald-50 to-teal-50">
+              <thead className="bg-gradient-to-r from-purple-50 to-pink-50">
                 <tr>
                   <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">#</th>
-                  <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">Image</th>
                   <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">Name</th>
-                  <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">Category</th>
-                  <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">Price</th>
-                  <th className="px-10 py-6 text-center text-lg font-semibold text-gray-700">Status</th>
+                  <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">Email</th>
+                  <th className="px-10 py-6 text-left text-lg font-semibold text-gray-700">Role</th>
                   <th className="px-10 py-6 text-center text-lg font-semibold text-gray-700">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {products.length === 0 ? (
+                {users.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-10 py-20 text-center">
+                    <td colSpan={5} className="px-10 py-20 text-center">
                       <div className="text-gray-500">
-                        <Package className="w-16 h-16 mx-auto mb-4 opacity-30" />
-                        <p className="text-xl">No products yet</p>
-                        <p className="text-lg mt-2">Click "Add Product" to start building your menu!</p>
+                        <Users className="w-16 h-16 mx-auto mb-4 opacity-30" />
+                        <p className="text-xl">No users yet</p>
+                        <p className="text-lg mt-2">Click "Add User" to create the first staff account!</p>
                       </div>
                     </td>
                   </tr>
                 ) : (
-                  products.map((product, index) => (
+                  users.map((user, index) => (
                     <motion.tr
-                      key={product.id}
+                      key={user.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: index * 0.05 }}
-                      className="border-b border-gray-100 hover:bg-emerald-50/50 transition-colors"
+                      className="border-b border-gray-100 hover:bg-purple-50/50 transition-colors"
                     >
                       <td className="px-10 py-6 text-gray-600 font-medium">{index + 1}</td>
+                      <td className="px-10 py-6 text-lg font-semibold text-gray-800">{user.name}</td>
+                      <td className="px-10 py-6 text-gray-700">{user.email}</td>
                       <td className="px-10 py-6">
-                        <div className="w-16 h-16 rounded-xl bg-gray-200 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden">
-                          {product.image ? (
-                            <img src={product.image} alt={product.name} className="w-full h-full object-cover" />
-                          ) : (
-                            <Package className="w-8 h-8 text-gray-400" />
-                          )}
-                        </div>
+                        <span className={`px-4 py-2 rounded-full text-white font-medium text-sm ${
+                          user.role === 'admin' ? 'bg-purple-600' : 'bg-indigo-600'
+                        }`}>
+                          {user.role.charAt(0).toUpperCase() + user.role.slice(1)}
+                        </span>
                       </td>
-                      <td className="px-10 py-6 text-lg font-semibold text-gray-800">{product.name}</td>
-                      <td className="px-10 py-6 text-gray-700">{product.category}</td>
-                      <td className="px-10 py-6 text-lg font-bold text-emerald-600">${product.price.toFixed(2)}</td>
                       <td className="px-10 py-6 text-center">
-                        <button
-                          onClick={() => handleToggleActive(product.id)}
-                          className="focus:outline-none"
-                        >
-                          {product.active ? (
-                            <FaToggleOn className="w-8 h-8 text-emerald-600" />
-                          ) : (
-                            <FaToggleOff className="w-8 h-8 text-gray-400" />
-                          )}
-                        </button>
-                      </td>
-                      <td className="px-10 py-6">
                         <div className="flex justify-center gap-4">
                           <button
-                            onClick={() => openEditModal(product)}
+                            onClick={() => openEditModal(user)}
                             className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                           >
-                            <FaEdit className="w-4 h-4" />
                             Edit
                           </button>
                           <button
-                            onClick={() => openDeleteModal(product)}
+                            onClick={() => openDeleteModal(user)}
                             className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-red-500 to-rose-600 text-white rounded-xl shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
                           >
-                            <FaTrash className="w-4 h-4" />
+                            <UserX className="w-4 h-4" />
                             Delete
                           </button>
                         </div>
@@ -184,29 +167,29 @@ const Product = () => {
             className="inline-block bg-white/70 backdrop-blur-md rounded-3xl shadow-xl p-8 border border-amber-100"
           >
             <p className="text-2xl text-gray-700">
-              A great menu starts with great products{' '}
-              <span className="text-emerald-600 font-bold">— make yours irresistible!</span>
+              Great teams make great cafes{' '}
+              <span className="text-purple-600 font-bold">— build yours here!</span>
             </p>
           </motion.div>
         </div>
       </div>
       <Modal
-        title={editingProduct ? "Edit Product" : "Add New Product"}
-        subtitle={editingProduct ? "Update your menu item details" : "Bring a new delicious item to your menu"}
+        title={editingUser ? "Edit User ☕" : "Add New User ☕"}
+        subtitle={editingUser ? "Update staff member details" : "Create a new staff account"}
         show={showAddEditModal}
         onCancel={() => setShowAddEditModal(false)}
         showFooter={false}
-        size="lg"
+        size="md"
       >
-        <ProductForm
-          initialData={editingProduct || undefined}
+        <UserForm
+          initialData={editingUser}
           onSave={handleSave}
           onCancel={() => setShowAddEditModal(false)}
         />
       </Modal>
       <Modal
-        title="Delete Product? ⚠️"
-        subtitle={`Are you sure you want to remove "${deletingProduct?.name}" from your menu?`}
+        title="Delete User?"
+        subtitle={`Are you sure you want to remove "${deletingUser?.name}"?`}
         show={showDeleteModal}
         onCancel={() => setShowDeleteModal(false)}
         onSuccess={handleDelete}
@@ -216,7 +199,7 @@ const Product = () => {
       >
         <div className="py-10 text-center">
           <div className="w-28 h-28 mx-auto mb-6 bg-red-100 rounded-full flex items-center justify-center">
-            <FaTrash className="w-14 h-14 text-red-600" />
+            <UserX className="w-14 h-14 text-red-600" />
           </div>
           <p className="text-lg text-gray-700">
             This action <strong>cannot be undone</strong>.
@@ -227,4 +210,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default User;

@@ -13,6 +13,8 @@ interface InputProps {
   errors?: string;
   border?: 'bottom' | 'none' | 'default';
   isRequired?: boolean;
+  max?:number | string;
+  min?:number |string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -22,6 +24,8 @@ const Input: React.FC<InputProps> = ({
   name,
   label = '',
   placeholder = '',
+  max,
+  min,
   type = 'text',
   disabled = false,
   value,
