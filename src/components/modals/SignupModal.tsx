@@ -5,9 +5,10 @@ import Input from '../common/Input';
 interface Props {
     show: boolean;
     onClose: () => void;
+    onSwitchToLogin?: () => void;
 }
 
-const SignupModal: React.FC<Props> = ({ show, onClose }) => {
+const SignupModal: React.FC<Props> = ({ show, onClose, onSwitchToLogin }) => {
     const [name, setName] = useState('');
     const [contact, setContact] = useState('');
     const [email, setEmail] = useState('');
@@ -27,7 +28,7 @@ const SignupModal: React.FC<Props> = ({ show, onClose }) => {
 
         setIsLoading(true);
         setTimeout(() => {
-            alert('🎉 Signup successful! You can now log in. (Demo mode)');
+            alert('Signup successful! You can now log in. (Demo mode)');
             setIsLoading(false);
             onClose();
         }, 1000);
@@ -89,6 +90,16 @@ const SignupModal: React.FC<Props> = ({ show, onClose }) => {
                         isRequired
                     />
                 </div>
+
+                <p className="text-center text-sm text-gray-600 -mt-2">
+                    Already have an account?{' '}
+                    <button
+                        onClick={onSwitchToLogin}
+                        className="text-blue-600 font-medium hover:underline focus:outline-none"
+                    >
+                        Click here to login
+                    </button>
+                </p>
             </div>
         </Modal>
     );

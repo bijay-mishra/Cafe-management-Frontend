@@ -25,6 +25,9 @@ const LandingPage = () => {
     if (isLoggedIn) {
         return <AdminDashboard />;
     }
+    const handleRequireLogin = () => {
+    setShowLogin(true);
+};
 
     const bestSellers = [
         { id: 1, title: "Pizza", icon: "🍕", description: "Hand-tossed perfection with fresh mozzarella & San Marzano tomatoes" },
@@ -85,10 +88,14 @@ const LandingPage = () => {
                         Where every sip and bite tells a story of passion and perfection
                     </p>
                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
-                        <button className="px-10 py-4 bg-amber-500 text-white text-lg font-semibold rounded-full hover:bg-amber-600 transition transform hover:scale-105 shadow-2xl">
+                        <button 
+                        onClick={handleRequireLogin}
+                        className="px-10 py-4 bg-amber-500 text-white text-lg font-semibold rounded-full hover:bg-amber-600 transition transform hover:scale-105 shadow-2xl">
                             Explore Menu
                         </button>
-                        <button className="px-10 py-4 bg-white/20 backdrop-blur border-2 border-white text-white text-lg font-semibold rounded-full hover:bg-white/30 transition">
+                        <button 
+                        onClick={handleRequireLogin}
+                        className="px-10 py-4 bg-white/20 backdrop-blur border-2 border-white text-white text-lg font-semibold rounded-full hover:bg-white/30 transition">
                             Order Online
                         </button>
                     </div>
@@ -130,7 +137,9 @@ const LandingPage = () => {
                             <div className="p-8 text-center relative z-10 bg-white">
                                 <h3 className="text-3xl font-bold text-gray-800 mb-3">{item.title}</h3>
                                 <p className="text-gray-600 leading-relaxed">{item.description}</p>
-                                <button className="mt-6 px-6 py-3 bg-amber-500 text-white rounded-full font-medium opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-amber-600">
+                                <button 
+                                onClick={handleRequireLogin}
+                                className="mt-6 px-6 py-3 bg-amber-500 text-white rounded-full font-medium opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-amber-600">
                                     Order Now
                                 </button>
                             </div>
