@@ -5,4 +5,5 @@ export interface Bill {
   totalAmount: number;
   date: string;
   paid: boolean;
+  items?:any
 }

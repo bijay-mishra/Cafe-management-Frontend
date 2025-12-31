@@ -33,6 +33,8 @@ const Bill = () => {
     window.print();
   };
 
+  const hasBills = bills.length > 0;
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 pt-24 px-6">
       <div className="max-w-7xl mx-auto">
@@ -79,7 +81,7 @@ const Bill = () => {
                 </tr>
               </thead>
               <tbody>
-                {bills.length === 0 ? (
+                {!hasBills ? (
                   <tr>
                     <td colSpan={7} className="px-10 py-24 text-center">
                       <div className="max-w-2xl mx-auto">
@@ -161,12 +163,14 @@ const Bill = () => {
                       className="border-b border-gray-100 hover:bg-purple-50/50 transition-colors"
                     >
                       <td className="px-10 py-6 text-gray-600 font-medium">{index + 1}</td>
-                      <td className="px-10 py-6 text-lg font-semibold text-gray-800">{bill.customerName}</td>
-                      <td className="px-10 py-6 text-gray-700">{bill.items.length} item{bill.items.length > 1 ? 's' : ''}</td>
-                      <td className="px-10 py-6 text-2xl font-bold text-purple-600">
-                        ${bill.totalAmount.toFixed(2)}
+                      <td className="px-10 py-6 text-lg font-semibold text-gray-800">{bill.customerName || 'Unknown'}</td>
+                      <td className="px-10 py-6 text-gray-700">
+                        {(bill.items?.length || 0)} item{(bill.items?.length || 0) > 1 ? 's' : ''}
                       </td>
-                      <td className="px-10 py-6 text-gray-700">{bill.date}</td>
+                      <td className="px-10 py-6 text-2xl font-bold text-purple-600">
+                        ${bill.totalAmount?.toFixed(2) ?? '0.00'}
+                      </td>
+                      <td className="px-10 py-6 text-gray-700">{bill.date || 'N/A'}</td>
                       <td className="px-10 py-6 text-center">
                         <span
                           className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-semibold shadow-md ${
@@ -218,7 +222,7 @@ const Bill = () => {
           </motion.div>
         </div>
 
-        {/* Receipt Modal */}
+        {/* Receipt Modal - NOW PRINTS PERFECTLY */}
         <Modal
           title="Customer Receipt"
           subtitle={`Bill for ${selectedBill?.customerName || ''}`}
@@ -228,18 +232,18 @@ const Bill = () => {
           showFooter={false}
         >
           {selectedBill && (
-            <div className="bg-white rounded-2xl shadow-2xl p-10 max-w-2xl mx-auto print:shadow-none print:bg-white">
+            <div className="receipt-print-container bg-white rounded-2xl shadow-2xl p-10 max-w-2xl mx-auto">
               <div className="text-center mb-10">
                 <div className="flex justify-center items-center gap-4 mb-4">
                   <span className="text-6xl">☕</span>
                   <h1 className="text-4xl font-bold text-gray-800">Cafe Bliss</h1>
                 </div>
                 <p className="text-lg text-gray-600">Thank you for your visit!</p>
-                <p className="text-sm text-gray-500 mt-2">Date: {selectedBill.date}</p>
+                <p className="text-sm text-gray-500 mt-2">Date: {selectedBill.date || 'N/A'}</p>
               </div>
 
               <div className="border-t-2 border-dashed border-gray-300 pt-6 mb-8">
-                <p className="text-lg"><strong>Customer:</strong> {selectedBill.customerName}</p>
+                <p className="text-lg"><strong>Customer:</strong> {selectedBill.customerName || 'Unknown'}</p>
               </div>
 
               <table className="w-full mb-8">
@@ -252,20 +256,28 @@ const Bill = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {selectedBill.items.map((item: any, idx: number) => (
-                    <tr key={idx} className="border-b">
-                      <td className="py-3 px-4">{item.productName}</td>
-                      <td className="text-center py-3 px-4">{item.quantity}</td>
-                      <td className="text-right py-3 px-4">${item.price.toFixed(2)}</td>
-                      <td className="text-right py-3 px-4 font-medium">${item.total.toFixed(2)}</td>
+                  {(selectedBill.items || []).length > 0 ? (
+                    selectedBill.items.map((item: any, idx: number) => (
+                      <tr key={idx} className="border-b">
+                        <td className="py-3 px-4">{item.productName || 'Unknown Item'}</td>
+                        <td className="text-center py-3 px-4">{item.quantity || 1}</td>
+                        <td className="text-right py-3 px-4">${(item.price || 0).toFixed(2)}</td>
+                        <td className="text-right py-3 px-4 font-medium">${(item.total || item.price || 0).toFixed(2)}</td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={4} className="text-center py-8 text-gray-500">
+                        No items recorded
+                      </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
 
               <div className="text-right border-t-2 border-dashed border-gray-300 pt-6">
                 <p className="text-3xl font-bold text-purple-600">
-                  Grand Total: ${selectedBill.totalAmount.toFixed(2)}
+                  Grand Total: ${selectedBill.totalAmount?.toFixed(2) ?? '0.00'}
                 </p>
                 <p className="text-xl mt-4">
                   <span className="font-semibold">Status:</span>{' '}
@@ -278,7 +290,7 @@ const Bill = () => {
               <div className="text-center mt-12">
                 <button
                   onClick={handlePrint}
-                  className="inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white text-xl font-bold rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300 print:hidden"
+                  className="no-print inline-flex items-center gap-3 px-10 py-4 bg-gradient-to-r from-purple-500 to-pink-600 text-white text-xl font-bold rounded-full shadow-xl hover:shadow-2xl hover:scale-105 transition-all duration-300"
                 >
                   <Printer className="w-6 h-6" />
                   Print Receipt

@@ -8,27 +8,3 @@ body {
   font-family: system-ui, Arial, sans-serif;
 }
 
-
-@media print {
-  body * {
-    visibility: hidden;
-  }
-  .print\\:shadow-none, .print\\:shadow-none * {
-    box-shadow: none !important;
-  }
-  .print\\:bg-white {
-    background: white !important;
-  }
-  .print\\:hidden {
-    display: none !important;
-  }
-  #receipt-modal, #receipt-modal * {
-    visibility: visible;
-  }
-  #receipt-modal {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-  }
-}
