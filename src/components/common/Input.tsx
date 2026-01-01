@@ -23,7 +23,6 @@ const Input: React.FC<InputProps> = ({
   onChange,
   name,
   label = '',
-  placeholder = '',
   type = 'text',
   disabled = false,
   value,

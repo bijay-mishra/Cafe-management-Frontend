@@ -22,8 +22,8 @@ const Login = () => {
         <h2 className="text-4xl font-bold text-center mb-10 text-blue-600">Login</h2>
         {error && <p className="text-red-500 text-center mb-6">{error}</p>}
         <div className="space-y-8">
-          <Input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-          <Input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
+          <Input name="username" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <Input name="password" type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} />
           <Button onClick={handleLogin} className="w-full py-4 text-xl">Login</Button>
         </div>
         <p className="text-center mt-6 text-gray-600">Use: admin / 123</p>
