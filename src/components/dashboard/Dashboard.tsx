@@ -3,117 +3,120 @@ import {
   Package,
   Users,
   Receipt,
-  TrendingUp
-} from 'lucide-react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+  TrendingUp,
+} from "lucide-react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const stats = [
     {
-      title: 'Categories',
+      title: "Categories",
       count: 5,
       icon: Coffee,
-      color: 'from-amber-400 to-orange-500',
-      hover: 'hover:shadow-amber-200',
-      link: '/category',
+      color: "from-amber-400 to-orange-500",
+      link: "/category",
     },
     {
-      title: 'Products',
+      title: "Products",
       count: 9,
       icon: Package,
-      color: 'from-emerald-400 to-teal-600',
-      hover: 'hover:shadow-emerald-200',
-      link: '/product',
+      color: "from-emerald-400 to-teal-600",
+      link: "/product",
     },
     {
-      title: 'Bills Today',
+      title: "Bills Today",
       count: 3,
       icon: Receipt,
-      color: 'from-blue-400 to-indigo-600',
-      hover: 'hover:shadow-blue-200',
-      link: '/bill',
+      color: "from-blue-400 to-indigo-600",
+      link: "/bill",
     },
     {
-      title: 'Users',
+      title: "Users",
       count: 3,
       icon: Users,
-      color: 'from-purple-400 to-pink-500',
-      hover: 'hover:shadow-purple-200',
-      link: '/user',
+      color: "from-purple-400 to-pink-500",
+      link: "/user",
     },
   ];
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 py-12 px-6">
-      <main className="pt-32 px-6">
-      <div className="max-w-7xl mx-auto mb-16 text-center">
-        <h1 className="text-5xl md:text-6xl font-bold text-gray-800 mb-4">
-          Welcome back, <span className="text-amber-600">Admin</span> ☕
-        </h1>
-        <p className="text-xl text-gray-600">
-          Here's what's happening in your cafe today
-        </p>
-      </div>
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {stats.map((stat, index) => (
-            <Link
-              key={stat.title}
-              to={stat.link}
-              className="group block"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                whileHover={{ y: -10 }}
-                className={`
-                  relative overflow-hidden rounded-3xl bg-white 
-                  shadow-xl ${stat.hover} 
-                  border border-gray-100
-                  transition-all duration-500 transform
-                  group-hover:scale-105
-                `}
-              >
-                <div className={`h-2 bg-gradient-to-r ${stat.color}`} />
-                <div className="p-8 text-center">
-                  <div className={`inline-flex p-5 rounded-2xl bg-gradient-to-br ${stat.color} text-white shadow-lg mb-6`}>
-                    <stat.icon className="w-10 h-10" />
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 dark:from-gray-900 dark:via-amber-950 dark:to-rose-950 overflow-x-hidden transition-colors duration-500">
+      <main className="pt-20 px-4 sm:px-6 lg:px-8 md:ml-64">
+        <div className="max-w-7xl mx-auto mb-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-800 dark:text-amber-100 mb-2">
+              Welcome back, <span className="text-amber-600 dark:text-amber-400">Admin</span> ☕
+            </h1>
+            <p className="text-sm sm:text-base md:text-lg text-gray-600 dark:text-gray-300">
+              Here's what's happening in your cafe today
+            </p>
+          </motion.div>
+        </div>
+
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {stats.map((stat, index) => (
+              <Link key={stat.title} to={stat.link}>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: index * 0.08 }}
+                  whileHover={{ y: -4 }}
+                  className="bg-white dark:bg-gray-800/90 rounded-xl shadow-md dark:shadow-2xl border border-gray-100 dark:border-amber-900/50 transition-all duration-300 hover:shadow-lg dark:hover:shadow-amber-900/30"
+                >
+                  <div className={`h-1.5 bg-gradient-to-r ${stat.color} dark:opacity-90`} />
+
+                  <div className="p-5 text-center">
+                    <div
+                      className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-gradient-to-br ${stat.color} text-white shadow-md`}
+                    >
+                      <stat.icon className="h-6 w-6" />
+                    </div>
+
+                    <h3 className="text-base sm:text-lg font-semibold text-gray-700 dark:text-gray-200 mb-1">
+                      {stat.title}
+                    </h3>
+
+                    <p className="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-amber-100 mb-3">
+                      {stat.count}
+                    </p>
+
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-md bg-gradient-to-r ${stat.color} px-4 py-2 text-xs sm:text-sm font-semibold text-white transition-transform hover:scale-105 shadow-md`}
+                    >
+                      View
+                      <TrendingUp className="h-4 w-4" />
+                    </span>
                   </div>
-                  <h3 className="text-2xl font-bold text-gray-800 mb-3">
-                    {stat.title}
-                  </h3>
-                  <p className="text-6xl font-extrabold bg-gradient-to-r ${stat.color} bg-clip-text text-transparent mb-6">
-                    {stat.count}
-                  </p>
-                  <span className={`
-                    inline-flex items-center gap-2 text-lg font-semibold 
-                    bg-gradient-to-r ${stat.color} text-white 
-                    px-8 py-4 rounded-2xl 
-                    shadow-lg 
-                    transition-all duration-300
-                    group-hover:shadow-2xl group-hover:scale-110
-                  `}>
-                    View {stat.title}
-                    <TrendingUp className="w-5 h-5" />
-                  </span>
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              </motion.div>
-            </Link>
-          ))}
+                </motion.div>
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
-      <div className="max-w-7xl mx-auto mt-20 text-center">
-        <div className="bg-white/70 backdrop-blur-md rounded-3xl shadow-2xl p-8 border border-amber-100">
-          <p className="text-2xl font-medium text-gray-700">
-            <span className="text-amber-600 font-bold">Cafe Bliss</span> is running smoothly
-          </p>
-          <p className="text-lg text-gray-600 mt-2">
-            Keep brewing excellence — one cup at a time
-          </p>
+
+        <div className="max-w-7xl mx-auto mt-14 text-center">
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+            className="rounded-xl bg-white/80 dark:bg-gray-800/70 backdrop-blur border border-amber-100 dark:border-amber-900/50 p-5 shadow-md dark:shadow-xl"
+          >
+            <p className="text-base sm:text-lg font-medium text-gray-700 dark:text-gray-200">
+              <span className="text-amber-600 dark:text-amber-400 font-bold">
+                Cafe Bliss
+              </span>{" "}
+              is running smoothly
+            </p>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Keep brewing excellence — one cup at a time
+            </p>
+          </motion.div>
         </div>
-      </div>
       </main>
     </div>
   );

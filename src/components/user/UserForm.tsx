@@ -11,25 +11,29 @@ interface Props {
   onSave: (data: { name: string; email: string; role: string }) => void;
   onCancel?: () => void;
 }
+
 const UserForm: React.FC<Props> = ({ initialData = {}, onSave, onCancel }) => {
   const [name, setName] = useState(initialData?.name || '');
   const [email, setEmail] = useState(initialData?.email || '');
   const [role, setRole] = useState(initialData?.role || 'staff');
+
   const handleSubmit = () => {
     if (name.trim() && email.trim()) {
       onSave({ name: name.trim(), email: email.trim(), role });
     }
   };
+
   return (
     <div className="space-y-10 py-6">
       <Input
-      name="fullName"
+        name="fullName"
         label="Full Name"
         placeholder="e.g., Sarah Johnson"
         value={name}
         onChange={(e) => setName(e.target.value)}
         isRequired
       />
+
       <Input
         name="email"
         label="Email Address"
@@ -39,18 +43,30 @@ const UserForm: React.FC<Props> = ({ initialData = {}, onSave, onCancel }) => {
         onChange={(e) => setEmail(e.target.value)}
         isRequired
       />
+
       <div>
-        <label className="block text-lg font-medium text-gray-700 mb-3">Role</label>
+        <label className="block text-lg font-medium text-gray-700 dark:text-gray-200 mb-3">
+          Role
+        </label>
         <select
           value={role}
           onChange={(e) => setRole(e.target.value)}
-          className="w-full px-6 py-4 rounded-xl border border-gray-300 focus:border-purple-500 focus:ring-4 focus:ring-purple-100 transition text-lg"
+          className="
+            w-full px-6 py-4 rounded-xl border 
+            border-gray-300 dark:border-gray-600 
+            bg-white dark:bg-gray-800 
+            text-gray-900 dark:text-gray-100 
+            focus:border-purple-500 dark:focus:border-purple-400 
+            focus:ring-4 focus:ring-purple-100 dark:focus:ring-purple-900/50 
+            transition text-lg outline-none
+          "
         >
           <option value="staff">Staff</option>
           <option value="admin">Admin</option>
         </select>
       </div>
-      <div className="flex justify-end gap-6 pt-6 border-t border-amber-100">
+
+      <div className="flex justify-end gap-6 pt-6 border-t border-amber-100 dark:border-amber-800/50">
         {onCancel && (
           <Button
             variant="secondary"
@@ -60,10 +76,20 @@ const UserForm: React.FC<Props> = ({ initialData = {}, onSave, onCancel }) => {
             Cancel
           </Button>
         )}
+
         <Button
           onClick={handleSubmit}
           disabled={!name.trim() || !email.trim()}
-          className="px-10 py-3 text-lg font-semibold bg-gradient-to-r from-purple-500 to-pink-600 hover:from-purple-600 hover:to-pink-700 shadow-lg hover:shadow-xl transition-all duration-300"
+          className="
+            px-10 py-3 text-lg font-semibold 
+            bg-gradient-to-r from-purple-500 to-pink-600 
+            dark:from-purple-600 dark:to-pink-700 
+            hover:from-purple-600 hover:to-pink-700 
+            dark:hover:from-purple-700 dark:hover:to-pink-800 
+            shadow-lg hover:shadow-xl 
+            disabled:opacity-50 disabled:cursor-not-allowed 
+            transition-all duration-300
+          "
         >
           {initialData?.name ? 'Update User' : 'Create User'}
         </Button>
@@ -71,4 +97,5 @@ const UserForm: React.FC<Props> = ({ initialData = {}, onSave, onCancel }) => {
     </div>
   );
 };
+
 export default UserForm;

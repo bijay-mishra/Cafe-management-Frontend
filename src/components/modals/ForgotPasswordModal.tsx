@@ -45,17 +45,17 @@ const ForgotPasswordModal: React.FC<Props> = ({ show, onClose }) => {
       <div className="space-y-8 py-6">
         {isSent ? (
           <div className="text-center space-y-6">
-            <div className="w-20 h-20 mx-auto bg-green-100 rounded-full flex items-center justify-center">
+            <div className="w-20 h-20 mx-auto bg-green-100 dark:bg-green-900/40 rounded-full flex items-center justify-center">
               <span className="text-4xl">✔</span>
             </div>
             <div>
-              <p className="text-lg font-medium text-gray-800">
+              <p className="text-lg font-medium text-gray-800 dark:text-gray-100">
                 Password reset link sent!
               </p>
-              <p className="text-gray-600 mt-2">
+              <p className="text-gray-600 dark:text-gray-300 mt-2">
                 We've sent instructions to <strong>{email}</strong>
               </p>
-              <p className="text-sm text-gray-500 mt-4">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-4">
                 (Demo mode — no email actually sent)
               </p>
             </div>
@@ -70,7 +70,7 @@ const ForgotPasswordModal: React.FC<Props> = ({ show, onClose }) => {
               onChange={(e) => setEmail(e.target.value)}
               isRequired
             />
-            <p className="text-sm text-gray-600 text-center">
+            <p className="text-sm text-gray-600 dark:text-gray-400 text-center">
               Enter your email and we'll send you a password reset link.
             </p>
           </>
